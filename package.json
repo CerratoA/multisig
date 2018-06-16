@@ -1,0 +1,22 @@
+{
+  "name": "multisig",
+  "version": "1.0.0",
+  "description": "multisig",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CerratoA/multisig.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CerratoA/multisig/issues"
+  },
+  "homepage": "https://github.com/CerratoA/multisig#readme",
+  "dependencies": {
+    "bitcore-lib": "^0.15.0"
+  }
+}
