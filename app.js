@@ -23,4 +23,4 @@ console.log(script.toString())
 //console.log("resultado" , texto)
 
 //console.log(address)
-console.log(new bitcore.PrivateKey())
+// console.log(new bitcore.PrivateKey())
