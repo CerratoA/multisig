@@ -1,5 +1,5 @@
-var exchangeHelpersImport = require('./exchangeHelpers');
-var exchangeHelpers = new exchangeHelpersImport();
+var libImport = require('../lib/index.js');
+var exchangeHelpers = new libImport.exchangeHelpersImport();
 
 //Sample Order with Amount
 var sampleOrder = {
