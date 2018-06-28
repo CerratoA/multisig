@@ -1,6 +1,6 @@
 {
   "name": "MultisigLibraryBTC",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "MultisigLibraryBTC",
   "main": "./lib/index.js",
   "scripts": {
