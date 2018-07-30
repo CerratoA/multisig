@@ -1,15 +1,12 @@
 var _ = require('lodash')
 var bitcore = require('bitcore-lib') 
-var btcLibraryImport = require('MultisigLibraryBTC');
-var btcLibrary = btcLibraryImport.multiSigHelperImport;
-
 
 //var network = bitcore.network
-var totalKeys = 3;
-var requiredSignatures = 2;
+var totalKeys = 3
+var requiredSignatures = 2
 
 
-const COIN = 100000000;
+const COIN = 100000000
 
 let coin_data = {
     "efin": {
@@ -64,56 +61,41 @@ var pubkeys = [
     parties[1].pubkey,
     parties[2].pubkey
 ]
-var msAddress
-function createMS(){
-    var multisig = {};
-    var redeemScript = btcLibrary.generatorMs(parties[0].pubkey,parties[1].pubkey,parties[2].pubkey)
-    multisig.msAddress = btcLibrary.getMSAddress(redeemScript);
-    multisig.msScript = btcLibrary.getMSScript(redeemScript).toString();
-    console.log('msdata', multisig);
-    msAddress=multisig.msAddress
-    return msAddress
-};
-//createMS()
+
+
+
+
 
 // multisig address
-var msAddress = bitcore.Address(pubkeys, requiredSignatures, network)
-console.log(" Address MS  ", msAddress)
-
+var address = bitcore.Address(pubkeys, requiredSignatures, network)
+console.log(" Address MS  ", address)
 // get utxo from external source (chromanode, insight, blockr...)
+
 var utxo = {
   txId: '9500bed37ae3deaec7357d67864a57e193b2f0c87906cd17f28a2b0218495879',
   outputIndex: 0,
-  address: msAddress.toString(),
-  script: bitcore.Script(msAddress).toHex(),
+  address: address.toString(),
+  script: bitcore.Script(address).toHex(),
   satoshis: 50*COIN
 }
 
 // create tx
-
-var Object;
-var stObj;
-
-function signTX(){
-var txObj = new bitcore.Transaction()
-    .from(utxo, pubkeys, requiredSignatures)
-    //address generada  y pegada
-    .to('EWzxuptz9pVMYpBqkoDkMCiB1tk7dYzXFi', utxo.satoshis)
-    //.toObject()
-    .sign(parties[0].PrivKey);
-    var serialized = txObj.toObject();
-    stObj = serialized;
-    secondSign(stObj);
-}
-
-function secondSign(txObj){
-    //requires obj generated from previous sign not hex
-    var txObj= new bitcore.Transaction(txObj)
-    //second signature
-    .sign(parties[2].PrivKey);
-    var serialized = txObj.toString();
-    console.log('txHex', serialized)
-    console.log('fully signed?', txObj.isFullySigned())
-}
-
-signTX();
+var txObj = bitcore.Transaction()
+  .from(utxo, pubkeys, requiredSignatures)
+  //address generada  y pegada
+  .to('EWzxuptz9pVMYpBqkoDkMCiB1tk7dYzXFi', utxo.satoshis)
+  //.to('n3E3sYxTwz4FCU3LdUnKiiG1PTcPC654Za', utxo.satoshis)
+  .toObject()
+console.log("Objeto   ",Object)
+// Alice sign tx
+var sigAliceObj = bitcore.Transaction(txObj).getSignatures(parties[0].PrivKey)[0]
+console.log("sigAliceObj   ", sigAliceObj)
+// Bob sign tx
+var sigBobObj = bitcore.Transaction(txObj).getSignatures(parties[2].PrivKey)[0]
+console.log("sigBobObj   ", sigBobObj)
+// apply Alice and Bob signatures
+var tx = bitcore.Transaction(txObj)
+  .applySignature(sigAliceObj)
+  .applySignature(sigBobObj)
+  console.log("Transaction    ",tx)
+  console.log('fully signed?', tx.isFullySigned())

@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/CerratoA/multisig#readme",
   "dependencies": {
+    "bitcoinjs-lib": "^3.3.2",
     "bitcore-explorers": "^1.0.1",
     "bitcore-lib": "^0.15.0",
     "lodash": "^4.17.10"
