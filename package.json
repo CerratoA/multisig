@@ -18,9 +18,15 @@
   },
   "homepage": "https://github.com/CerratoA/multisig#readme",
   "dependencies": {
+    "@types/bitcoinjs-lib": "^3.4.0",
     "bitcoinjs-lib": "^3.3.2",
     "bitcore-explorers": "^1.0.1",
     "bitcore-lib": "^0.15.0",
-    "lodash": "^4.17.10"
+    "bitcore-message": "^1.0.4",
+    "bitcore-mnemonic-instance": "git+https://github.com/XourseDev/bitcore-mnemonic.git",
+    "lodash": "^4.17.10",
+    "particl-bitcore-lib": "git+https://github.com/particl/particl-bitcore-lib.git",
+    "rxjs": "^6.2.2",
+    "save": "^2.3.2"
   }
 }

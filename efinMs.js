@@ -1,13 +1,13 @@
+//var bitcore=require('bitcore-mnemonic-instance/node_modules/particl-bitcore-lib');
+//var bitcore=require('particl-bitcore-lib');
 var _ = require('lodash')
 var bitcore = require('bitcore-lib') 
 var btcLibraryImport = require('MultisigLibraryBTC');
 var btcLibrary = btcLibraryImport.multiSigHelperImport;
 
-
 //var network = bitcore.network
 var totalKeys = 3;
 var requiredSignatures = 2;
-
 
 const COIN = 100000000;
 
@@ -41,19 +41,19 @@ function getNewUser(){
     console.log(obj);
     return obj
 }
-//getNewUser()
+ //getNewUser()
 
  var parties= [
     {   PrivKey: "c4bb93ef44d223935f2c50b1c22b4bebca28d2b5783b7a32355c857a6a1fa6c8",
         pubkey: "031541f365c0c425c0bf6d3829f1a3921dbea8b77a01522e74cd2167b5db3825ff",
-        address:"Address: ENDkhiVeBMH5TKUoNMwQVskaB4jFsAh4TV"
+        address:"ENDkhiVeBMH5TKUoNMwQVskaB4jFsAh4TV"
     },
     {   Privkey:'a57fdb31a65f95c66aeba024afdd088fb9bf1c7b9f1d7177f5f490808d751077',
         pubkey:"0229dafc35ecbf9514e4645071d1f449478d8443e5fd9d6e581ed508d8f2be3ac0",
         address:"Eb9egLtWomx1oDhg6oABHQrsDkNHkaYEtc"
     },
     {   PrivKey:'18a6425a125543e8f5241943c31ac852fc2fb2dafc34feff668defb4662f8106',
-        pubkey:"02eb1b36f0916fa07f7a6f144979e549187e17e2e549cf1c16c609c0ace91eecdc",
+        pubkey:"02eb1b3//6f0916fa07f7a6f144979e549187e17e2e549cf1c16c609c0ace91eecdc",
         address:"EYDJf53qumHeRUQkMCxxPSAhquKHL9rWT1"
     }
 ]
@@ -64,44 +64,45 @@ var pubkeys = [
     parties[1].pubkey,
     parties[2].pubkey
 ]
-var msAddress
+var msAddress;
+var msScript;
+
 function createMS(){
-    var multisig = {};
     var redeemScript = btcLibrary.generatorMs(parties[0].pubkey,parties[1].pubkey,parties[2].pubkey)
-    multisig.msAddress = btcLibrary.getMSAddress(redeemScript);
-    multisig.msScript = btcLibrary.getMSScript(redeemScript).toString();
-    console.log('msdata', multisig);
-    msAddress=multisig.msAddress
-    return msAddress
+    msAddress = btcLibrary.getMSAddress(redeemScript);
+    msScript = btcLibrary.getMSScript(redeemScript).toString();
+    return ;
 };
 //createMS()
-
-// multisig address
-var msAddress = bitcore.Address(pubkeys, requiredSignatures, network)
-console.log(" Address MS  ", msAddress)
-
-// get utxo from external source (chromanode, insight, blockr...)
-var utxo = {
-  txId: '9500bed37ae3deaec7357d67864a57e193b2f0c87906cd17f28a2b0218495879',
+   
+ function createEfinMs(){
+    msAddress = bitcore.Address(pubkeys, requiredSignatures, network)
+    msScript= bitcore.Script(msAddress).toString();
+    return ;
+    }
+createEfinMs()
+ console.log( "Address  MS  ", msAddress); 
+ console.log( "Script  MS  ", msScript);
+// Address  MS Efin     RPYJqCVuSjwNAWUL6jMWebSQZQy8L4eM9v
+ var utxo = {
+  txId: 'fd12d9632ac42dd5f02ee420feb2277458d90c0a76a144b711fa5fb23eecc358',
   outputIndex: 0,
   address: msAddress.toString(),
-  script: bitcore.Script(msAddress).toHex(),
-  satoshis: 50*COIN
+  script: msScript,
+  satoshis: 500000000
 }
-
-// create tx
-
-var Object;
+var Object;//
 var stObj;
 
 function signTX(){
 var txObj = new bitcore.Transaction()
     .from(utxo, pubkeys, requiredSignatures)
     //address generada  y pegada
-    .to('EWzxuptz9pVMYpBqkoDkMCiB1tk7dYzXFi', utxo.satoshis)
-    //.toObject()
+    .to('EYDJf53qumHeRUQkMCxxPSAhquKHL9rWT1', utxo.satoshis-10000)
+    .toObject()
     .sign(parties[0].PrivKey);
     var serialized = txObj.toObject();
+    //console.log( " 1111" , JSON.stringify(serialized))
     stObj = serialized;
     secondSign(stObj);
 }
@@ -112,7 +113,7 @@ function secondSign(txObj){
     //second signature
     .sign(parties[2].PrivKey);
     var serialized = txObj.toString();
-    console.log('txHex', serialized)
+    //console.log('txHex', JSON.stringify(txObj.toObject()))
     console.log('fully signed?', txObj.isFullySigned())
 }
 

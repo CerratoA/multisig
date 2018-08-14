@@ -36,71 +36,63 @@ const COIN = 100000000;
       obj.privkey = new bitcore.PrivateKey("tokenpay/mainnet");
       obj.pubkey = new bitcore.PublicKey(obj.privkey);
       obj.address = obj.pubkey.toAddress();
-      console.log(obj);
+      console.log("PPPP",obj);
       return obj
   }
- // getNewUser()
+  //getNewUser()
   
   var parties= [
-    {   PrivKey: "24269c6cec69ff18a734becca70808e2a38bcd805eaa2e0a8cdb34bc687a054a",
-        pubkey: "02339a428227800b953b44213f1976ba6ae85463df34ab79e68095a28d04b0f212",
-        address:"TMViLQForxxUTviLEByfNWsDuN9myWVgVx"
+    {   PrivKey: "526270d3c14594910cb04d095db52ca865e8a3309f0256cc9a9cbc9bcfc9e89f",
+        pubkey: "03c381e95db90bfbfd9cb2153d3563cbe31f5f0248b91095c9ea93526ab1072b22",
+        address:"TRZW9GFkJkfN7MFLkLxvpojUZkkVSUDQAR"
     },
-    {   Privkey:'58b95644ffd5622f836301a46c7d6448d8a14746743b8a3abeee2c0c1f45ce87',
-        pubkey:"025f5b3f0df2e580ff721b8e29f8a5fb163df7d885612df66cf137fd338830409a",
-        address:"TFAnFiaxsYXRVAy7y343JcQXHKctazR9Qp"
+    {   Privkey:'e7aa5d86f64c41d0407f19fad6d097408f1c67acf8dcf5bb9def6620b64bf009',
+        pubkey:"0317a079316f0e8113da94f1c845102d4966e49ee2d1389f36cd0c0265e1d2d3f9",
+        address:  "TCVPmkFoqm81ZZ29nw2WhGGTKHavyXTmMk"
+
     },
-    {   PrivKey:'d5e2fa375b0d9cf9816f33603ff24135e59a2ddf4593eb6faac57fc317a4b1b5',
-        pubkey:"031674e3576def565b221f9c35a2fd4e93f6867405a671ffba12de9ea483ab5e3d",
-        address:"TPxaMENNrNUq8MZTUSWEf5uMJ69Pvg3gsK"
+    {   PrivKey:'aee9688bffb7b51faf5b162180a646a1c7bed5ada896ed3d5b04b7f1d58feb49',
+        pubkey:"02bd1188ef459948775f1dc8b95cd9d3b5a023327445c81b0e826f3ec6580bffcd",
+        address:"TG7wxGXLMpc1joYqnYJAJE3zWBPRM8yduv"
     }
-]
- 
+  ]
+
+
+
 var pubkeys = [
     parties[0].pubkey,
     parties[1].pubkey,
     parties[2].pubkey
 ]
 //console.log(pubkeys); 
-
-//  ESTA  FUNCION  MULTISIG FUNCIONA  PARA BITCOIN Y EFIN  PERO NO PARA TOKEN PAY  POR TANTO
-// USAR  LA  SIGUIENTE  FUNCION  createTpayMs
-//function createMS(){
-  //  var multisig = {};
-    //var redeemScript = btcLibrary.generatorMs(parties[0].pubkey,parties[1].pubkey,parties[2].pubkey)
-    //multisig.msAddress = btcLibrary.getMSAddress(redeemScript);
-    //multisig.msScript = btcLibrary.getMSScript(redeemScript).toString();
-    //console.log('msdata', multisig);
-    //msAddress=multisig.msAddress
-    //return msAddress
-//};
+function createMS(){
+    var redeemScript = btcLibrary.generatorMs(parties[0].pubkey,parties[1].pubkey,parties[2].pubkey)
+    msAddress = btcLibrary.getMSAddress(redeemScript);
+    msScript = btcLibrary.getMSScript(redeemScript).toString();
+    return ;
+};
 //createMS()
 
 var msAddress;
 var msScript;
+
 function createTpayMs(){
-var multisig={}
-multisig.msAddress = bitcore.Address(pubkeys, requiredSignatures, network)
-multisig.msScript= bitcore.Script(multisig.msAddress).toHex();
-msAddress=multisig.msAddress
-msScript=multisig.msScript
-console.log( "Address  MS  ", multisig.msAddress); 
-console.log( "Script  MS  ", multisig.msScript); 
-return multisig;
-}
+    msAddress = bitcore.Address(pubkeys, requiredSignatures, network)
+    msScript= bitcore.Script(msAddress).toString();
+    return ;
+    }
 createTpayMs()
+ console.log( "Address  MS  ", msAddress); 
+ console.log( "Script  MS  ", msScript);
 
 var utxo = {
-    txId: "f788a679f943f119ed94959c6e2eb69115758f374edc96fda3397577062d263d",
-    outputIndex: 0,
+    txId: "91018cc26124fd44859428b66ca43e9fc93bc94c31d748148b0eb1d1305701e5",
+    outputIndex: 1,
     address: msAddress.toString(),
     //script: bitcore.Script(msAddress).toHex(),
     script:msScript,
-    satoshis: 50*COIN
+    satoshis: 0.04000000*100000000
   }
-  
-  
-  
   var Object;
   var stObj;
   
@@ -108,7 +100,7 @@ var utxo = {
   var txObj = new bitcore.Transaction()
       .from(utxo, pubkeys, requiredSignatures)
       //address generada  y pegada
-      .to("TGxjdtn76KaFYSGnNT99s567axVv4BMxVf" ,utxo.satoshis)
+      .to("TMUKGYVZe2pY5jxVqnRYkNSa6yE79cB18s" ,utxo.satoshis)
       .sign(parties[0].PrivKey);
       var serialized = txObj.toObject();
       stObj = serialized;
@@ -121,6 +113,7 @@ var utxo = {
       var serialized = txObj.toString();
       console.log('txHex', serialized)
       console.log('fully signed?', txObj.isFullySigned())
+     // console.log('Objeto-', txObj.toObject())
   }
   
   signTX();
