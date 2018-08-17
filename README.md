@@ -1,2 +1,2 @@
-# multisig
-multisig
+# Multisig Library for BTC
+Multisig Library for BTC

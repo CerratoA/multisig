@@ -1,10 +1,11 @@
 {
-  "name": "multisig",
-  "version": "1.0.0",
-  "description": "multisig",
-  "main": "index.js",
+  "name": "MultisigLibraryBTC",
+  "version": "1.0.1",
+  "description": "MultisigLibraryBTC",
+  "main": "./lib/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "testhelpers": "node ./test/testhelpers.js",
+    "testmultisig": "node ./test/testhelpers.js"
   },
   "repository": {
     "type": "git",

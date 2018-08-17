@@ -1,5 +1,5 @@
-var exchangeHelpersImport = require('./exchangeHelpers');
-var exchangeHelpers = new exchangeHelpersImport();
+var libImport = require('../lib/index.js');
+var exchangeHelpers = libImport.exchangeHelpersImport;
 
 //Sample Order with Amount
 var sampleOrder = {
@@ -18,3 +18,15 @@ console.log("Objeto2 =" + JSON.stringify(subtotalbuy));
 var verifySale= exchangeHelpers.verinforSale(quantityObject,150)
 var verifyBuy= exchangeHelpers.verinforBuy(subtotalbuy,30)
     
+
+
+var orderOwner={address:444,amount:20 }
+var txOutput={address:555,amount:30}
+var verifTxFinishOwner= exchangeHelpers.verifTxOutput(orderOwner,txOutput)
+console.log("verifaction owner: ", verifTxFinishOwner);
+
+var orderTaker={address:444,amount:34 }
+var txOutputTaker={address:444,amount:34}
+
+var verifTxFinishTaker= exchangeHelpers.verifTxOutput(orderTaker,txOutputTaker)
+console.log("verifaction taker: ", verifTxFinishTaker);

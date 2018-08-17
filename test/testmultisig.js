@@ -1,5 +1,5 @@
-var multiSigHelperImport = require("./multisig");
-var multiSigHelper = new multiSigHelperImport();
+var libImport = require("./multisig");
+var multiSigHelper = new libImport.multiSigHelperImport();
 
 var k1="03F6C1CC3C8D287DC377C0F9DD16B07241CA7DDE082349B3B935ED949C785C2934";
 var k2="03939F87935F23DA1F0BA54F63C5FFB2540DC0B3582F5ED908C218848CDC0A7FF8";
