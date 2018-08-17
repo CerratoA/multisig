@@ -1,5 +1,5 @@
 {
-  "name": "cryptomultisig",
+  "name": "@xourse/cryptomultisig",
   "version": "1.0.1",
   "description": "cryptomultisig",
   "main": "./lib/index.js",
