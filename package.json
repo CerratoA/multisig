@@ -1,7 +1,7 @@
 {
-  "name": "MultisigLibraryBTC",
+  "name": "cryptomultisig",
   "version": "1.0.1",
-  "description": "MultisigLibraryBTC",
+  "description": "cryptomultisig",
   "main": "./lib/index.js",
   "scripts": {
     "testhelpers": "node ./test/testhelpers.js",
